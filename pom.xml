@@ -1,19 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.pig.app</groupId>
-  <artifactId>intern</artifactId>
+  <groupId>com.intern</groupId>
+  <artifactId>pagination-optimizer</artifactId>
   <version>1.0.0</version>
-  <name>intern</name>
-  <description>intern</description>
-
   <packaging>pom</packaging>
-
+  <name>Archetype - pagination-optimizer</name>
+  <url>http://maven.apache.org</url>
   <modules>
     <module>drivers</module>
     <module>users</module>
   </modules>
+
 
   <properties>
     <java.version>1.8</java.version>
