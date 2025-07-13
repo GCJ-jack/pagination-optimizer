@@ -4,6 +4,11 @@
   <groupId>com.intern</groupId>
   <artifactId>pagination-optimizer</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <name>Archetype - pagination-optimizer</name>
   <url>http://maven.apache.org</url>
+  <modules>
+    <module>drivers</module>
+    <module>users</module>
+  </modules>
 </project>
