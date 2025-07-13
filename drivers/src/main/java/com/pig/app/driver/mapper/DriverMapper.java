@@ -1,4 +1,7 @@
 package com.pig.app.driver.mapper;
 
-public interface DriverMapper {
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pig.app.driver.entity.Driver;
+
+public interface DriverMapper extends BaseMapper<Driver> {
 }
