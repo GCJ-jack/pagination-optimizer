@@ -1,6 +1,8 @@
 package com.pig.app.user.controller;
 
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
 import com.pig.app.user.entity.Driver;
 import com.pig.app.user.entity.User;
 import com.pig.app.user.mapper.UserMapper;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -71,5 +74,29 @@ public class UserController {
                     Driver driver = restTemplate.getForObject(url + user.getId(),Driver.class);
                     return new UserVO(user,driver);
                 }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/page/optimize")
+    public List<UserVO> getUserWithDriverOptimized(long pagenum, long pageSize) {
+        long start = (pagenum - 1) * pageSize;
+
+        List<User> users = userMapper.selectByLimit(start,pageSize);
+
+        String idParam = users.stream()
+                .map(User::getId)
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+
+        String json = restTemplate.getForObject(url  + "by-user-ids?userIds=" + idParam, String.class);
+
+        Map<Long,Driver> map = JSONUtil.toBean(json, new TypeReference<Map<Long, Driver>>() {
+        },true);
+
+        return users.stream()
+                .map(user ->{
+                    Driver driver = map.get(user.getId());
+                    return new UserVO(user,driver);
+                        })
+                .collect(Collectors.toList());
     }
 }

@@ -10,10 +10,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 
@@ -59,5 +64,20 @@ public class DriverController {
         LambdaQueryWrapper<Driver> wrapper = Wrappers.<Driver>lambdaQuery()
                 .eq(Driver::getUserId, userId);
         return driverMapper.selectOne(wrapper);
+    }
+
+    @GetMapping("/by-user-ids")
+    public Map<Long, Driver> getDriver(@RequestParam List<Long> userIds){
+        LambdaQueryWrapper<Driver> wrapper = Wrappers.<Driver>lambdaQuery()
+                .in(Driver::getUserId,userIds);
+
+        List<Driver> drivers = driverMapper.selectList(wrapper);
+
+        return drivers.stream()
+                .collect(Collectors.toMap(
+                        Driver::getUserId,
+                        Function.identity(),
+                        (v1, v2) -> v2
+                ));
     }
 }
